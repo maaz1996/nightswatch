@@ -1,15 +1,20 @@
-Here is the entire, raw `README.md` content in a single block. You can copy everything below this line and paste it directly into your file.
-
-```markdown
 # nightswatch 🛡️
 
 A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification. Built on top of `jose`, designed for Node.js, Edge Functions, and the browser.
 
 ## Features
+
 * **Purely Functional:** No classes, no side-effects, just predictable functions.
 * **JWKS Support:** Automatic public key fetching, caching, and rotation.
-* **Security First:** Defaults to `RS256` and includes clock-drift tolerance.
+* **Security First:** Defaults to RS256 and includes clock-drift tolerance.
 * **Universal:** Works seamlessly in Node.js, Cloudflare Workers, Vercel Edge, and Browsers.
+
+---
+
+## Installation
+
+```bash
+npm install @maaz4/nightswatch
 
 ---
 

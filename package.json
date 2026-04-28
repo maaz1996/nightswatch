@@ -16,6 +16,20 @@
       "require": "./dist/index.js"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maaz4/nightswatch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/maaz4/nightswatch/issues"
+  },
+  "homepage": "https://github.com/maaz4/nightswatch#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "jwt",
     "jose",

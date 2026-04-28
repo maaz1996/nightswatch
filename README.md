@@ -102,4 +102,3 @@ A helper utility to determine if a key is a JSON Web Key (JWK) object or a stand
 
 ## License
 MIT
-```

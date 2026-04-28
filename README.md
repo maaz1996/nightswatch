@@ -16,12 +16,6 @@ A lightweight, functional, and environment-agnostic library for JWT generation a
 ```bash
 npm install @maaz4/nightswatch
 
----
-
-## Installation
-
-```bash
-npm install @maaz4/nightswatch
 ```
 
 ---

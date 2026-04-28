@@ -1,0 +1,41 @@
+{
+  "name": "@maaz4/nightswatch",
+  "version": "2.0.0",
+  "description": "A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "release": "npm run build && npm publish --access public"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "keywords": [
+    "jwt",
+    "jose",
+    "jwks",
+    "json web tokens",
+    "key management",
+    "cryptography",
+    "token generation",
+    "security",
+    "authentication",
+    "authorization"
+  ],
+  "author": "Maaz Abdullah",
+  "license": "ISC",
+  "dependencies": {
+    "jose": "^6.2.3"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}

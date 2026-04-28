@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/maaz4/nightswatch.git"
+    "url": "git+https://github.com/maaz1996/nightswatch.git"
   },
   "bugs": {
-    "url": "https://github.com/maaz4/nightswatch/issues"
+    "url": "https://github.com/maaz1996/nightswatch/issues"
   },
-  "homepage": "https://github.com/maaz4/nightswatch#readme",
+  "homepage": "https://github.com/maaz1996/nightswatch#readme",
   "publishConfig": {
     "access": "public"
   },

@@ -1,6 +1,6 @@
 {
   "name": "@maaz4/nightswatch",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -29,7 +29,7 @@
     "authorization"
   ],
   "author": "Maaz Abdullah",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "jose": "^6.2.3"
   },

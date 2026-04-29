@@ -1,5 +1,5 @@
 {
-  "name": "@maaz4/nightswatch",
+  "name": "@maaz/nightswatch",
   "version": "2.0.4",
   "description": "A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification",
   "main": "./dist/index.js",

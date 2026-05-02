@@ -1,27 +1,22 @@
-import { importJWK, importPKCS8 } from 'jose';
+// Helper: Convert Base64URL to Uint8Array
+export const decodeBase64Url = (base64url: string): Uint8Array => {
+  const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
+  const padLen = (4 - (base64.length % 4)) % 4;
+  const bin = atob(base64 + '='.repeat(padLen));
+  return Uint8Array.from(bin, (c) => c.charCodeAt(0));
+};
 
-// Define the type locally if the export is being stubborn, 
-// or simply use 'any' for the utility return type since jose 
-// handles the internal typing.
-export type KeyInput = string | object;
+// Helper: Convert JWK to CryptoKey
+export const importJWK = async (jwk: JsonWebKey): Promise<CryptoKey> => {
+  return await crypto.subtle.importKey(
+    "jwk",
+    jwk,
+    { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+    false,
+    ["verify"]
+  );
+};
 
-export const isJWK = (key: any): boolean => 
-  typeof key === 'object' && key.kty !== undefined;
-
-/**
- * Imports a string (PEM/PKCS8) or JWK into a format used for crypto operations.
- */
-export async function importKey(key: KeyInput, alg: string, isPrivate: boolean): Promise<any> {
-  if (isJWK(key)) {
-    return await importJWK(key as any, alg);
-  }
-  
-  if (typeof key === 'string') {
-    const cleanKey = key.replace(/\\n/g, '\n');
-    return isPrivate 
-      ? await importPKCS8(cleanKey, alg) 
-      : await importPKCS8(cleanKey, alg); 
-  }
-  
-  throw new Error('Nightswatch: Invalid key format. Provide a PEM string or JWK.');
-}
+export const isJWK = (key: any): boolean => {
+  return typeof key === 'object' && key !== null && 'kty' in key;
+};

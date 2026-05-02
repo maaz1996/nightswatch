@@ -1,30 +1,17 @@
-import { SignJWT, type JWTPayload } from 'jose';
-import { importKey } from './utils';
+// Simplified generator snippet
+export const generateToken = async (payload: object, privateKey: CryptoKey, options: { kid: string }) => {
+  const header = btoa(JSON.stringify({ alg: 'RS256', kid: options.kid })).replace(/=/g, '');
+  const body = btoa(JSON.stringify(payload)).replace(/=/g, '');
+  const data = new TextEncoder().encode(`${header}.${body}`);
 
-export interface SignOptions {
-  issuer: string;
-  audience: string;
-  expiration: string | number;
-  kid: string;
-  alg?: string;
-}
+  const signature = await crypto.subtle.sign(
+    "RSASSA-PKCS1-v1_5",
+    privateKey,
+    data
+  );
 
-/**
- * Functional generator to sign a custom JWT.
- */
-export async function generateToken(
-  payload: JWTPayload,
-  privateKey: string | object,
-  options: SignOptions
-): Promise<string> {
-  const alg = options.alg || 'RS256';
-  const key = await importKey(privateKey, alg, true);
+  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(signature)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
 
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg, kid: options.kid })
-    .setIssuedAt()
-    .setIssuer(options.issuer)
-    .setAudience(options.audience)
-    .setExpirationTime(options.expiration)
-    .sign(key);
-}
+  return `${header}.${body}.${sigB64}`;
+};

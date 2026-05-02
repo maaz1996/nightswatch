@@ -1,27 +1,38 @@
-import { createRemoteJWKSet, jwtVerify, type JWTVerifyResult } from 'jose';
+import { decodeBase64Url, importJWK } from './utils.js';
 
-export interface VerifyOptions {
-  issuer: string;
-  audience: string;
-  algorithms?: string[];
-  clockTolerance?: string | number; // Handles slight time drift between servers
-}
+export const createVerifier = (jwksUri: string, options: { issuer: string; audience: string }) => {
+  let jwksCache: any = null;
 
-/**
- * Returns a validation function that maintains an internal JWKS cache.
- */
-export function createVerifier(jwksUri: string, defaults: VerifyOptions) {
-  // RemoteJWKSet automatically handles caching and rotation based on 'kid'
-  const JWKS = createRemoteJWKSet(new URL(jwksUri));
+  return async (token: string) => {
+    const [headerB64, payloadB64, signatureB64] = token.split('.');
+    
+    // 1. Fetch JWKS if not cached
+    if (!jwksCache) {
+      const res = await fetch(jwksUri);
+      jwksCache = await res.json();
+    }
 
-  return async (token: string, overrideOptions?: Partial<VerifyOptions>): Promise<JWTVerifyResult> => {
-    const options = { ...defaults, ...overrideOptions };
+    // 2. Decode header to find 'kid'
+    const header = JSON.parse(atob(headerB64.replace(/-/g, '+').replace(/_/g, '/')));
+    const jwk = jwksCache.keys.find((k: any) => k.kid === header.kid);
+    if (!jwk) throw new Error("Key ID not found");
 
-    return await jwtVerify(token, JWKS, {
-      issuer: options.issuer,
-      audience: options.audience,
-      algorithms: options.algorithms || ['RS256'],
-      clockTolerance: options.clockTolerance || '5s' 
-    });
+    // 3. Verify Signature
+    const publicKey = await importJWK(jwk);
+    const isValid = await crypto.subtle.verify(
+      { name: "RSASSA-PKCS1-v1_5", hash: "SHA-256" },
+      publicKey,
+      decodeBase64Url(signatureB64),
+      new TextEncoder().encode(`${headerB64}.${payloadB64}`)
+    );
+
+    if (!isValid) throw new Error("Invalid signature");
+
+    // 4. Manual Claim Validation
+    const payload = JSON.parse(atob(payloadB64.replace(/-/g, '+').replace(/_/g, '/')));
+    if (payload.iss !== options.issuer) throw new Error("Invalid issuer");
+    if (payload.exp < Date.now() / 1000) throw new Error("Token expired");
+
+    return { payload };
   };
-}
+};

@@ -1,6 +1,6 @@
 # nightswatch 🛡️
 
-A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification. Built on top of `jose`, designed for Node.js, Edge Functions, and the browser.
+A lightweight, functional, and environment-agnostic library for JWT generation and JWKS-based verification. Built on top of `crypto:native module`, designed for Node.js, Edge Functions, and the browser.
 
 ## Features
 

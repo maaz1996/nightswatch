@@ -32,7 +32,6 @@
   ],
   "keywords": [
     "jwt",
-    "jose",
     "jwks",
     "json web tokens",
     "key management",
@@ -44,9 +43,6 @@
   ],
   "author": "Maaz Abdullah",
   "license": "MIT",
-  "dependencies": {
-    "jose": "^6.2.3"
-  },
   "devDependencies": {
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

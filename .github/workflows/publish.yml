@@ -14,9 +14,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       
       - run: npm ci
-      - run: npm run build
-      
-      # This publishes the package
-      - run: npm run publish
+      # This runs your 'release' script (build + publish)
+      - run: npm run release
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
